@@ -20,7 +20,7 @@ func unpad(src []byte) []byte {
 }
 
 func ivextract(ciphertext []byte) ([]byte, []byte) {
-	// Extraer el IV de los primeros 16 bytes
+
 	iv := ciphertext[:aes.BlockSize]
 	ciphertext = ciphertext[aes.BlockSize:]
 	return iv, ciphertext
@@ -43,13 +43,13 @@ func DecoderAES(key []byte, encodedtext []byte) string {
 
 	iv, ciphertext := ivextract(ciphertext)
 
-	// Modo CBC
+
 	mode := cipher.NewCBCDecrypter(block, iv)
 
 	plaintext := make([]byte, len(ciphertext))
 	mode.CryptBlocks(plaintext, ciphertext)
 
-	// Quitar padding
+
 	plaintext = unpad(plaintext)
 
 	return string(plaintext)
