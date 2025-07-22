@@ -18,7 +18,6 @@ func pad(src []byte, blockSize int) []byte {
 }
 
 func ivrand() []byte {
-	// Crear IV aleatorio
 	iv := make([]byte, aes.BlockSize)
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
 		log.Fatal(err)
@@ -36,13 +35,11 @@ func EncoderAES(key []byte, plaintext string) string {
 
 	iv := ivrand()
 
-	// Usar modo CBC
 	mode := cipher.NewCBCEncrypter(block, iv)
 
 	ciphertext := make([]byte, len(paddedText))
 	mode.CryptBlocks(ciphertext, paddedText)
 
-	// Prepend IV al resultado
 	finalOutput := append(iv, ciphertext...)
 
 	return hex.EncodeToString(finalOutput)
